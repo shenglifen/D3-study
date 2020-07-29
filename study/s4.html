@@ -1,0 +1,35 @@
+<!--
+ * @Description: 
+ * @Author: ssssslf
+ * @Date: 2020-07-28 19:42:25
+ * @LastEditTime: 2020-07-28 19:48:38
+ * @LastEditors: ssssslf
+-->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Update、Exit</title>
+    <script type="text/javascript" src="http://d3js.org/d3.v5.min.js"></script>
+  </head>
+  <body>
+    <p>dog</p>
+    <p>cat</p>
+    <p>pig</p>
+    <script>
+      // 数据数量小于插入位置数据
+      const dataset = [3, 6];
+      const p = d3.select("body").selectAll("p");
+      const update = p.data(dataset); //绑定数据,并得到update部分
+      const exit = update.exit(); //得到enter部分
+
+      //下面检验是否真的得到
+      //对于update的处理
+      update.text((d, i) => "update: " + d + ",index: " + i);
+
+      //对于exit的处理通常是删除 ，但在这里我并没有这么做
+      exit.text((d, i) => "exit");
+    </script>
+  </body>
+</html>

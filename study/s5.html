@@ -1,0 +1,43 @@
+<!--
+ * @Description: 选择、插入、删除元素
+ * @Author: ssssslf
+ * @Date: 2020-07-29 09:38:54
+ * @LastEditTime: 2020-07-29 10:33:52
+ * @LastEditors: ssssslf
+-->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>选择、插入、删除元素</title>
+    <script type="text/javascript" src="http://d3js.org/d3.v5.min.js"></script>
+  </head>
+  <body>
+    <p>dog</p>
+    <p class="myP2">cat</p>
+    <p id="myP3">pig</p>
+    <p>rat</p>
+
+    <script>
+      const p1 = d3.select("body").select("p");
+      p1.style("color", "red");
+      const p2 = d3.select("body").selectAll(".myP2");
+      p2.style("color", "green");
+
+      const dataset = [3, 6, 9, 12];
+      const p = d3.select("body");
+      // p.selectAll("p")
+      //   .data(dataset)
+      //   .text(function (d, i) {
+      //     if (i === 3) {
+      //       d3.select(this).style("color", "red");
+      //     }
+      //     return d;
+      //   });
+      p.append("p").text("adddddd").style("color", "blue");
+      p.insert("p", "#myP3").text("add2");
+      p.select("#myP3").remove();
+    </script>
+  </body>
+</html>

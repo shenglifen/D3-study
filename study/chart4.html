@@ -1,0 +1,72 @@
+<!--
+ * @Description: 
+ * @Author: ssssslf
+ * @Date: 2020-07-29 11:37:17
+ * @LastEditTime: 2020-07-29 13:58:20
+ * @LastEditors: ssssslf
+-->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>完整的柱状图</title>
+    <script type="text/javascript" src="http://d3js.org/d3.v5.min.js"></script>
+  </head>
+  <body>
+    <svg width="960" height="600"></svg>
+    <script>
+      const marge = { top: 60, bottom: 60, left: 60, right: 60 };
+      const svg = d3.select("svg"); //得到SVG画布
+      const width = svg.attr("width"); //得到画布的宽
+      const height = svg.attr("height"); //得到画布的长
+
+      const g = svg
+        .append("g")
+        .attr("transform", `translate(${marge.top},${marge.left})`);
+
+      const dataset = [10, 20, 30, 23, 13, 40, 27, 35, 20];
+
+      // d3.scaleBand()：这也是一个坐标轴，可以根据输入的domain的长度，等分rangeRound域（类比range域）
+      // d3.range() ：返回一个等差数列,dataset.length=9，所以返回的是0到8的等差数列
+      const xScale = d3
+        .scaleBand()
+        .domain(d3.range(dataset.length))
+        .rangeRound([0, width - marge.left - marge.right]);
+
+      const xAxis = d3.axisBottom(xScale);
+
+      const yScale = d3
+        .scaleLinear()
+        .domain([0, d3.max(dataset)])
+        .rangeRound([height - marge.top - marge.bottom, 0]);
+      const yAxis = d3.axisLeft(yScale);
+
+      g.append("g")
+        .attr("transform", `translate(0,${height - marge.top - marge.bottom})`)
+        .call(xAxis);
+      g.append("g").attr("transform", "translate(0,0)").call(yAxis);
+
+      //绘制矩形和文字
+      var gs = g.selectAll(".rect").data(dataset).enter().append("g");
+
+      // 绘制矩形
+      console.log(xScale.step());
+      const rectPadding = 20;
+      gs.append("rect")
+        .attr("x", (d, i) => xScale(i) + rectPadding / 2)
+        .attr("y", yScale)
+        .attr("width", () => xScale.step() - rectPadding)
+        .attr("height", (d) => height - marge.top - marge.bottom - yScale(d))
+        .attr("fill", "lightblue");
+
+      // 绘制文字
+      gs.append("text")
+        .attr("x", (d, i) => xScale(i) + rectPadding / 2)
+        .attr("y", yScale)
+        .attr("dx", () => (xScale.step() - rectPadding) / 2)
+        .attr("dy", 20)
+        .text((d) => d);
+    </script>
+  </body>
+</html>
